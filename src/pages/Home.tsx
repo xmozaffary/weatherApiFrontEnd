@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import { get } from "../service/serviceBase";
-import { ICoordinates } from "../model/ICoordinated";
+import { IWeatherResponse } from "../model/IWeatherResponse";
 
 export const Home = () => {
-  const [coordinates, seyCoordinates] = useState<ICoordinates[] | null>(null);
+  const [weather, seyWeather] = useState<IWeatherResponse | null>(null);
 
   useEffect(() => {
     const getCoordinates = async () => {
-      const res = await get<ICoordinates[]>(
-        "http://localhost:8080/coordinates/london"
+      const res = await get<IWeatherResponse>(
+        "http://localhost:8080/weather/uppsala"
       );
 
-      seyCoordinates(res);
+      seyWeather(res);
     };
 
     console.log("test");
+    console.log(weather?.name);
 
     getCoordinates();
   }, []);
@@ -22,10 +23,9 @@ export const Home = () => {
   return (
     <>
       <main className="home">
-        {coordinates && (
+        {weather && (
           <>
-            <p>{coordinates[0]?.name}</p>
-            <p>{coordinates[0]?.country}</p>
+            <p>{weather.name}</p>
           </>
         )}
       </main>
